@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radio Play RO - Live</title>
+  <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0c2340;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    header {
+      padding: 30px 20px 10px;
+    }
+
+    .logo {
+      max-width: 200px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin-top: 5px;
+      font-size: 28px;
+      color: #00b7ff;
+    }
+    
+    /* Navigație */
+    nav {
+      margin: 20px 0 40px 0;
+    }
+
+    nav a {
+      display: inline-block;
+      margin: 0 12px;
+      padding: 8px 16px;
+      background-color: #007acc;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 123, 204, 0.5);
+    }
+
+    nav a:hover {
+      background-color: #005fa3;
+      box-shadow: 0 4px 10px rgba(0, 95, 163, 0.7);
+    }
+
+    .player-container {
+      background-color: #0a1e33;
+      padding: 30px 20px;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 0 auto 30px auto;
+      box-shadow: 0 0 20px #00b7ff55;
+      
+    }
+
+    #play-btn {
+      padding: 15px 35px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00b7ff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #play-btn:hover {
+      background-color: #0088cc;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    .social {
+      margin-top: 40px;
+    }
+
+    .social a {
+      display: inline-block;
+      margin: 0 10px;
+      padding: 10px 18px;
+      background-color: #00b7ff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .social a:hover {
+      background-color: #0088cc;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://i.imgur.com/KPi5xWG.jpeg" alt="Radio Play RO Logo" class="logo" />
+    <h1>🔊Radio Play RO - Live Stream</h1>
+
+    <nav>
+      <a href="index.html">Acasă</a>
+      <a href="despre.html">Despre</a>
+      <a href="jetix.html">Jetix Generation</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="player-container">
+      <button id="play-btn">▶️ Play</button>
+      <div class="status" id="status">Player oprit</div>
+    </div>
+
+    <div class="social">
+      <a href="https://www.instagram.com/radio_play_ro" target="_blank">📷 Instagram</a>
+      <a href="https://www.youtube.com/" target="_blank">▶️ YouTube</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Radio Play RO. Toate drepturile rezervate.
+  </footer>
+
+  <script>
+    const streamURL = "http://149.102.155.145:42028/;";
+    const statusEl = document.getElementById("status");
+    const button = document.getElementById("play-btn");
+
+    const sound = new Howl({
+      src: [streamURL],
+      html5: true,
+      autoplay: false,
+      volume: 1.0,
+      onplay: () => {
+        statusEl.textContent = "🎶 Redare în curs...";
+        button.textContent = "⏸️ Pauză";
+      },
+      onpause: () => {
+        statusEl.textContent = "⏸️ Pauză";
+        button.textContent = "▶️ Play";
+      },
+      onend: () => {
+        statusEl.textContent = "⏹️ Redare oprită";
+        button.textContent = "▶️ Play";
+      },
+      onloaderror: () => {
+        statusEl.textContent = "⚠️ Eroare la încărcarea streamului";
+      },
+      onplayerror: () => {
+        statusEl.textContent = "⚠️ Nu se poate porni streamul";
+      }
+    });
+
+    let isPlaying = false;
+
+    button.addEventListener("click", () => {
+      if (!isPlaying) {
+        sound.play();
+      } else {
+        sound.pause();
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+
+</body>
+</html>
